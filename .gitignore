@@ -1,0 +1,26 @@
+
+# Lapis
+*.lua
+nginx.conf.compiled
+
+# Nginx/openresty
+logs/
+client_body_temp/
+fastcgi_temp/
+proxy_temp/
+scgi_temp/
+uwsgi_temp/
+
+# Temp/OS/other files
+*.swp
+*.user
+*.suo
+*.sln.docstates
+*.[Cc]ache
+~$*
+*~
+.DS_Store
+$RECYCLE.BIN/
+Thumbs.db
+ehthumbs.db
+
