@@ -1,5 +1,5 @@
 
-.PHONY: build
+.PHONY: lapis
 
 SRC_DIR=$(CURDIR)/src
 SECRET_DIR=$(CURDIR)/secret

@@ -1,5 +1,5 @@
 
-import prod, dev from require "secret.config"
+import prod, dev from require "secret.environment_vars"
 import config from require "lapis.config"
 
 config "production", ->
