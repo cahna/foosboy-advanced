@@ -27,7 +27,7 @@ watch:: build
 lint:
 	moonc -l $$(git ls-files | grep '\.moon$$' | grep -v config.moon)
 
-test:
+test: build
 	busted
 
 db:: build dbtest schema migrate

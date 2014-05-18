@@ -65,7 +65,7 @@ destroy_schema = ->
 
 if ... == "test"
   db.query = print
-  make_schema!
+  create_schema!
 
 {:create_schema, :destroy_schema}
 
