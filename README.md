@@ -40,7 +40,6 @@ $ cd foosboy-advanced
 > __NOTE__: `lapis migrate` will not work. Use `make db` or `make migrate`.
 
 ```bash
-# `make db` compiles configurations, so `make lapis` isn't necessary yet
 $ make db
 ```
 
@@ -55,10 +54,7 @@ $ make test
 * Start the server with:
 
 ```bash
-# Compile everything
-$ make lapis
-
-# Run the server
+$ make            # to update sources
 $ lapis server
 ```
 

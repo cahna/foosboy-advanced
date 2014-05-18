@@ -1,5 +1,5 @@
 
-.PHONY: lapis
+.PHONY: build
 
 SRC_DIR=$(CURDIR)/src
 WEB_DIR=$(CURDIR)/web
@@ -7,14 +7,14 @@ WEB_DIR=$(CURDIR)/web
 RM ?= rm --preserve-root -f -v
 RMDIR ?= $(RM) -r
 
-lapis:: build
-	lapis build
-
-build:: conf
+build:: conf lapis
 	cd $(SRC_DIR) && moonc -t $(WEB_DIR) *.moon */*.moon
 
 conf::
 	moonc *.moon secret/*.moon db/*.moon
+
+lapis::
+	lapis build
 
 # Convenience task for increasing inotify watches (use sudo)
 inotify:
@@ -30,17 +30,17 @@ lint:
 test:
 	busted
 
-db:: dbtest schema migrate
+db:: build dbtest schema migrate
 
 dbtest::
-	@echo "testing"
+	lapis exec 'require"lapis.db".query"select 1"'
 
 schema:: conf dbtest
 	lapis exec 'require"db.schema".create_schema()'
 
 migrate:: conf dbtest
 	lapis exec 'require"lapis.db.migrations".create_migrations_table()'
-	lapis exec 'require"lapis.db.migrations".run_migrations(require "db.migrations")'
+	lapis exec 'require"lapis.db.migrations".run_migrations(require"db.migrations")'
 
 routes:
 	lapis exec 'require "cmd.routes"'

@@ -1,0 +1,13 @@
+return {
+  default = {
+    pattern = ".spec"
+  },
+  unit = {
+    pattern = ".spec",
+    ROOT = "spec/unit"
+  },
+  integration = {
+    pattern = ".spec",
+    ROOT = "spec/integration"
+  }
+}
