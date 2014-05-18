@@ -34,10 +34,14 @@ $ cd foosboy-advanced
   - Configure connection and credentials in `secret/environment_vars.moon`
     (see `secret/environment_vars.example.moon` for usage)
 
-4. Compile Lua sources and lapis configuration files
+4. Create the database schema and run migrations (this will also compile the
+   configuration files).
+
+> __NOTE__: `lapis migrate` will not work. Use `make db` or `make migrate`.
 
 ```bash
-$ make lapis
+# `make db` compiles configurations, so `make lapis` isn't necessary yet
+$ make db
 ```
 
 5. [ _optionally_ ] Run tests
@@ -51,6 +55,10 @@ $ make test
 * Start the server with:
 
 ```bash
+# Compile everything
+$ make lapis
+
+# Run the server
 $ lapis server
 ```
 
