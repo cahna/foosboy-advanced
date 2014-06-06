@@ -1,33 +1,30 @@
 
-.PHONY: build
+MOONC ?= $(HOME)/.luarocks/bin/moonc
+RM = rm --preserve-root -f
+RMDIR = $(RM) -r
 
-SRC_DIR=$(CURDIR)/src
-WEB_DIR=$(CURDIR)/web
+SOURCEDIR = ./src
+BUILDDIR = ./web
 
-RM ?= rm --preserve-root -f -v
-RMDIR ?= $(RM) -r
+SOURCES = $(shell find $(SOURCEDIR) -type f -name '*.moon')
+OBJECTS = $(patsubst $(SOURCEDIR)/%.moon,$(BUILDDIR)/%.lua,$(SOURCES))
 
-build:: conf lapis
-	cd $(SRC_DIR) && moonc -t $(WEB_DIR) *.moon */*.moon
+all: $(OBJECTS)
 
-conf::
-	moonc *.moon secret/*.moon db/*.moon
-
-lapis::
-	lapis build
+$(OBJECTS): $(BUILDDIR)/%.lua : $(SOURCEDIR)/%.moon
+	$(MOONC) -o $@ $<
 
 # Convenience task for increasing inotify watches (use sudo)
 inotify:
 	echo 12800 > /proc/sys/fs/inotify/max_user_watches
 
-# If this fails, inotify max_user_watches may need to be increased
-watch:: build
-	cd $(SRC_DIR) && moonc -t $(WEB_DIR) -w ./
+lapis:
+	lapis build
 
 lint:
 	moonc -l $$(git ls-files | grep '\.moon$$' | grep -v config.moon)
 
-test: build
+test: $(OBJECTS)
 	busted
 
 db:: build dbtest schema migrate
@@ -42,15 +39,16 @@ migrate:: conf dbtest
 	lapis exec 'require"lapis.db.migrations".create_migrations_table()'
 	lapis exec 'require"lapis.db.migrations".run_migrations(require"db.migrations")'
 
-routes:
+routes: all lapis
 	lapis exec 'require "cmd.routes"'
 
 clean::
-	$(RM) nginx.conf.compiled
 	$(RM) *.lua
 	$(RM) secret/*.lua
-	$(RM) web/*.lua
-	$(RM) web/*/*.lua
+	$(RMDIR) $(BUILDDIR)
+
+clean_lapis::
+	$(RM) nginx.conf.compiled
 	$(RMDIR) fastcgi_temp
 	$(RMDIR) uwsgi_temp
 	$(RMDIR) scgi_temp
