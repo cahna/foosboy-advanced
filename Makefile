@@ -14,7 +14,7 @@ APP_OBJECTS = $(patsubst $(SOURCEDIR)/%.moon,$(BUILDDIR)/%.lua,$(APP_SOURCES))
 CONF_SOURCES = $(shell find -name "*.moon" -not -path "./web/*" -and -not -path "./src/*")
 CONF_OBJECTS = $(patsubst ./%.moon,./%.lua,$(CONF_SOURCES))
 
-all: lint compile lapis
+all: compile lint lapis
 
 compile: $(APP_OBJECTS) $(CONF_OBJECTS)
 
