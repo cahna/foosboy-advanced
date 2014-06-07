@@ -14,6 +14,9 @@ APP_OBJECTS = $(patsubst $(SOURCEDIR)/%.moon,$(BUILDDIR)/%.lua,$(APP_SOURCES))
 CONF_SOURCES = $(shell find -name "*.moon" -not -path "./web/*" -and -not -path "./src/*")
 CONF_OBJECTS = $(patsubst ./%.moon,./%.lua,$(CONF_SOURCES))
 
+LAPIS_SOURCES = nginx.conf
+LAPIS_OBJECTS = nginx.conf.compiled
+
 all: compile lint lapis
 
 compile: $(APP_OBJECTS) $(CONF_OBJECTS)
@@ -28,8 +31,10 @@ $(CONF_OBJECTS): ./%.lua : ./%.moon
 inotify:
 	echo 12800 > /proc/sys/fs/inotify/max_user_watches
 
-lapis:
+$(LAPIS_OBJECTS): ./%.conf.compiled : ./%.conf
 	lapis build
+
+lapis: $(LAPIS_OBJECTS)
 
 lint:
 	moonc -l $$(git ls-files | grep '\.moon$$' | grep -v config.moon)
@@ -52,15 +57,12 @@ migrate:: $(CONF_OBJECTS) dbtest
 routes: all lapis
 	lapis exec 'require "cmd.routes"'
 
-clean::
+clean:: clean_src clean_lapis
+
+clean_src::
 	$(RM) $(CONF_OBJECTS) $(APP_OBJECTS)
 
 clean_lapis::
-	$(RM) nginx.conf.compiled
-	$(RMDIR) fastcgi_temp
-	$(RMDIR) uwsgi_temp
-	$(RMDIR) scgi_temp
-	$(RMDIR) client_body_temp
-	$(RMDIR) proxy_temp
-	$(RMDIR) logs
+	$(RM) $(LAPIS_OBJECTS)
+	$(RMDIR) fastcgi_temp uwsgi_temp scgi_temp client_body_temp proxy_temp logs
 
