@@ -1,4 +1,6 @@
 
+.PHONY: all
+
 MOONC ?= $(HOME)/.luarocks/bin/moonc
 RM = rm --preserve-root -f
 RMDIR = $(RM) -r
@@ -6,13 +8,21 @@ RMDIR = $(RM) -r
 SOURCEDIR = ./src
 BUILDDIR = ./web
 
-SOURCES = $(shell find $(SOURCEDIR) -type f -name '*.moon')
-OBJECTS = $(patsubst $(SOURCEDIR)/%.moon,$(BUILDDIR)/%.lua,$(SOURCES))
+APP_SOURCES = $(shell find $(SOURCEDIR) -type f -name '*.moon')
+APP_OBJECTS = $(patsubst $(SOURCEDIR)/%.moon,$(BUILDDIR)/%.lua,$(APP_SOURCES))
 
-all: $(OBJECTS)
+CONF_SOURCES = $(shell find -name "*.moon" -not -path "./web/*" -and -not -path "./src/*")
+CONF_OBJECTS = $(patsubst ./%.moon,./%.lua,$(CONF_SOURCES))
 
-$(OBJECTS): $(BUILDDIR)/%.lua : $(SOURCEDIR)/%.moon
+all: lint compile lapis
+
+compile: $(APP_OBJECTS) $(CONF_OBJECTS)
+
+$(APP_OBJECTS): $(BUILDDIR)/%.lua : $(SOURCEDIR)/%.moon
 	$(MOONC) -o $@ $<
+
+$(CONF_OBJECTS): ./%.lua : ./%.moon
+	$(MOONC) $<
 
 # Convenience task for increasing inotify watches (use sudo)
 inotify:
@@ -24,18 +34,18 @@ lapis:
 lint:
 	moonc -l $$(git ls-files | grep '\.moon$$' | grep -v config.moon)
 
-test: $(OBJECTS)
+test: $(APP_OBJECTS)
 	busted
 
-db:: build dbtest schema migrate
+db:: all dbtest schema migrate
 
 dbtest::
 	lapis exec 'require"lapis.db".query"select 1"'
 
-schema:: conf dbtest
+schema:: $(CONF_OBJECTS) dbtest
 	lapis exec 'require"db.schema".create_schema()'
 
-migrate:: conf dbtest
+migrate:: $(CONF_OBJECTS) dbtest
 	lapis exec 'require"lapis.db.migrations".create_migrations_table()'
 	lapis exec 'require"lapis.db.migrations".run_migrations(require"db.migrations")'
 
@@ -43,9 +53,7 @@ routes: all lapis
 	lapis exec 'require "cmd.routes"'
 
 clean::
-	$(RM) *.lua
-	$(RM) secret/*.lua
-	$(RMDIR) $(BUILDDIR)
+	$(RM) $(CONF_OBJECTS) $(APP_OBJECTS)
 
 clean_lapis::
 	$(RM) nginx.conf.compiled
