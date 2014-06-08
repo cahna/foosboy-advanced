@@ -1,16 +1,16 @@
 return {
   default = {
     pattern = ".spec",
-    lpath = "./web/?.lua"
+    lpath = "./web/lua/?.lua"
   },
   unit = {
     pattern = ".spec",
     ROOT = "spec/unit",
-    lpath = "./web/?.lua"
+    lpath = "./web/lua/?.lua"
   },
   integration = {
     pattern = ".spec",
     ROOT = "spec/integration",
-    lpath = "./web/?.lua"
+    lpath = "./web/lua/?.lua"
   }
 }

@@ -1,6 +1,11 @@
 
 import Model from require 'lapis.db.models'
 
+class Teams extends Model
+  @timestamp: true
+
+  @create: =>
+
 class Players extends Model
   @timestamp: true
 
@@ -26,3 +31,7 @@ class Players extends Model
       last_name = opt[2]
 
     print "Deleting: #{opt}"
+
+class Matches extends Model
+  @timestamp: true
+

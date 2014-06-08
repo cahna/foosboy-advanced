@@ -2,11 +2,11 @@
 .PHONY: all
 
 MOONC ?= $(HOME)/.luarocks/bin/moonc
-RM = rm --preserve-root -f
+RM = rm --preserve-root -fv
 RMDIR = $(RM) -r
 
 SOURCEDIR = ./src
-BUILDDIR = ./web
+BUILDDIR = ./web/lua
 
 APP_SOURCES = $(shell find $(SOURCEDIR) -type f -name '*.moon')
 APP_OBJECTS = $(patsubst $(SOURCEDIR)/%.moon,$(BUILDDIR)/%.lua,$(APP_SOURCES))
@@ -22,47 +22,48 @@ all: compile lint lapis
 compile: $(APP_OBJECTS) $(CONF_OBJECTS)
 
 $(APP_OBJECTS): $(BUILDDIR)/%.lua : $(SOURCEDIR)/%.moon
-	$(MOONC) -o $@ $<
+	@$(MOONC) -o $@ $<
 
 $(CONF_OBJECTS): ./%.lua : ./%.moon
-	$(MOONC) $<
+	@$(MOONC) $<
 
 # Convenience task for increasing inotify watches (use sudo)
 inotify:
 	echo 12800 > /proc/sys/fs/inotify/max_user_watches
 
 $(LAPIS_OBJECTS): ./%.conf.compiled : ./%.conf
-	lapis build
+	@lapis build
 
 lapis: $(LAPIS_OBJECTS)
 
 lint:
-	moonc -l $$(git ls-files | grep '\.moon$$' | grep -v config.moon)
+	@moonc -l $(APP_SOURCES)
 
 test: $(APP_OBJECTS)
-	busted
+	@busted
 
 db:: all dbtest schema migrate
 
 dbtest::
-	lapis exec 'require"lapis.db".query"select 1"'
+	@lapis exec 'require"lapis.db".query"select 1"'
 
 schema:: $(CONF_OBJECTS) dbtest
-	lapis exec 'require"db.schema".create_schema()'
+	@lapis exec 'require"db.schema".create_schema()'
 
 migrate:: $(CONF_OBJECTS) dbtest
-	lapis exec 'require"lapis.db.migrations".create_migrations_table()'
-	lapis exec 'require"lapis.db.migrations".run_migrations(require"db.migrations")'
+	@lapis exec 'require"lapis.db.migrations".create_migrations_table()'
+	@lapis exec 'require"lapis.db.migrations".run_migrations(require"db.migrations")'
 
 routes: all lapis
-	lapis exec 'require "cmd.routes"'
+	@lapis exec 'require "cmd.routes"'
 
 clean:: clean_src clean_lapis
 
 clean_src::
-	$(RM) $(CONF_OBJECTS) $(APP_OBJECTS)
+	@$(RM) $(CONF_OBJECTS) $(APP_OBJECTS)
+	@$(RMDIR) $(BUILDDIR)
 
 clean_lapis::
-	$(RM) $(LAPIS_OBJECTS)
-	$(RMDIR) fastcgi_temp uwsgi_temp scgi_temp client_body_temp proxy_temp logs
+	@$(RM) $(LAPIS_OBJECTS)
+	@$(RMDIR) fastcgi_temp uwsgi_temp scgi_temp client_body_temp proxy_temp logs
 
