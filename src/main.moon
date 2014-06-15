@@ -1,4 +1,4 @@
 
 lapis = require "lapis"
-lapis.serve require "app.api"
+lapis.serve require "app.foosboy_api"
 

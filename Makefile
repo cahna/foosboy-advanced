@@ -7,11 +7,12 @@ RMDIR = $(RM) -r
 
 SOURCEDIR = ./src
 BUILDDIR = ./web/lua
+SPECDIR = ./spec
 
-APP_SOURCES = $(shell find $(SOURCEDIR) -type f -name '*.moon')
+APP_SOURCES = $(shell find $(SOURCEDIR) -type f -name '*.moon' -not -path "$(SPECDIR)/*")
 APP_OBJECTS = $(patsubst $(SOURCEDIR)/%.moon,$(BUILDDIR)/%.lua,$(APP_SOURCES))
 
-CONF_SOURCES = $(shell find -name "*.moon" -not -path "./web/*" -and -not -path "./src/*")
+CONF_SOURCES = $(shell find -name "*.moon" -not -path "./web/*" -and -not -path "./src/*" -and -not -path './spec/*')
 CONF_OBJECTS = $(patsubst ./%.moon,./%.lua,$(CONF_SOURCES))
 
 LAPIS_SOURCES = nginx.conf
@@ -57,6 +58,9 @@ migrate:: $(CONF_OBJECTS) dbtest
 routes: all lapis
 	@lapis exec 'require "cmd.routes"'
 
+run: all lapis
+	@lapis server
+
 clean:: clean_src clean_lapis
 
 clean_src::
@@ -66,4 +70,7 @@ clean_src::
 clean_lapis::
 	@$(RM) $(LAPIS_OBJECTS)
 	@$(RMDIR) fastcgi_temp uwsgi_temp scgi_temp client_body_temp proxy_temp logs
+
+clean_schema::
+	@lapis exec 'require"db.schema".destroy_schema()'
 

@@ -1,5 +1,5 @@
 
-import Model from require 'lapis.db.models'
+import Model from require 'lapis.db.model'
 
 class Teams extends Model
   @timestamp: true
@@ -35,3 +35,6 @@ class Players extends Model
 class Matches extends Model
   @timestamp: true
 
+{
+  :Teams, :Players, :Matches
+}

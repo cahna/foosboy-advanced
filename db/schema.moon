@@ -18,15 +18,16 @@ schema = {
     {"id", serial primary_key: true}
     {"first_name", varchar}
     {"last_name", varchar}
-    {"created", time}
-    {"last_updated", time}
+    {"created_at", time}
+    {"updated_at", time}
   },
   teams: {
     {"id", serial primary_key: true}
     {"team_name", varchar}
     {"player1_id", foreign_key}
     {"player2_id", foreign_key}
-    {"created", time}
+    {"created_at", time}
+    {"updated_at", time}
 
     -- Don't allow player1 to be the same as player2
     "CHECK (player1_id <> player2_id)"
@@ -35,7 +36,8 @@ schema = {
     {"id", serial primary_key: true}
     {"team1_id", foreign_key}
     {"team2_id", foreign_key}
-    {"created", integer}
+    {"created_at", time}
+    {"updated_at", time}
 
     -- Don't allow team1 to be the same as team2
     "CHECK (team1_id <> team2_id)"
@@ -45,13 +47,17 @@ schema = {
     {"match_id", foreign_key}
     {"team1_score", integer}
     {"team2_score", integer}
-    {"created", time}
-    {"last_updated", time}
+    {"created_at", time}
+    {"updated_at", time}
   },
   player_postitions: {
     {"player_id", foreign_key}
     {"game_id", foreign_key}
     {"position", integer}
+    {"created_at", time}
+    {"updated_at", time}
+
+    "PRIMARY KEY (player_id, game_id)"
   }
 }
 
