@@ -22,6 +22,17 @@ class Players extends Model
       :last_name
     }
 
+  @exists: (opt) =>
+    if not opt.first_name
+      return nil, "missing opt 'first_name'"
+    if not opt.last_name
+      return nil, "missing opt 'last_name'"
+
+    if Players\find opt
+      return true
+    else
+      return false
+
   @delete: (...) =>
     opt = ...
     id, first_name, last_name = opt[1], "", ""

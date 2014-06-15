@@ -13,6 +13,11 @@ class PlayersApp extends Application
   @path: "players"
   @name: "player_"
 
+  [list: "/all"]: capture_errors_json =>
+    json: {
+      payload: Players\select "*"
+    }
+
   [view: "/view/:id"]: =>
     "View player #{@params.id}"
 
