@@ -15,7 +15,7 @@ class PlayersApp extends Application
 
   [list: "/all"]: capture_errors_json =>
     json: {
-      payload: Players\select "*"
+      payload: Players\select!
     }
 
   [view: "/view/:id"]: respond_to {
