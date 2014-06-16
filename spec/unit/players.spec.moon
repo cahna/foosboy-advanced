@@ -30,6 +30,11 @@ describe "Players model tests", ->
     it "ensures the test_user exists in the DB", ->
       assert.is_true Players\exists test_vars
 
+    it "fails trying to create a user with the same name", ->
+      status, msg = Players\create test_vars
+      assert.falsy status
+      assert.equal msg, "duplicate player name"
+
   describe "viewing a user", ->
     it "can view a user given a known id", ->
       assert.truthy Players\find {id: test_player_id}

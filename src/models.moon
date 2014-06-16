@@ -17,6 +17,9 @@ class Players extends Model
     if not last_name
       return nil, "missing opt 'last_name'"
 
+    if @exists opt
+      return nil, "duplicate player name"
+
     Model.create @, {
       :first_name
       :last_name

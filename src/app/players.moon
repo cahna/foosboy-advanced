@@ -30,6 +30,12 @@ class PlayersApp extends Application
         { "first_name", exists: true, type: "string" }
         { "last_name",  exists: true, type: "string" }
       }
+
+      if Players\exists {first_name: @params.first_name, last_name: @params.last_name}
+        return status: 500, json: {
+          errors: {"Player already exists with that name"}
+        }
+
       user = assert_error Players\create {
         first_name: @params.first_name,
         last_name: @params.last_name
