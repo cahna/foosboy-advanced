@@ -12,5 +12,10 @@ return {
     pattern = ".spec",
     ROOT = "spec/integration",
     lpath = "./web/lua/?.lua"
+  },
+  behavioral = {
+    pattern = ".spec",
+    ROOT = "spec/behavioral",
+    lpath = "./web/lua/?.lua"
   }
 }
