@@ -12,7 +12,7 @@ describe "Teams model tests", ->
   teardown ->
     close_test_server!
 
-  local test_player1, test_player2
+  local test_player1, test_player2, test_team, test_response_message
   test_vars = {
     team_name: "Dream team"
     player1: {
@@ -42,20 +42,32 @@ describe "Teams model tests", ->
 
     assert.is_true type(test_vars.team_name) == "string"
 
-  it "creates a team with the 2 users", ->
+  it "verifies test_playerX variables persist across serially-run tests", ->
     assert.truthy test_player1
     assert.truthy test_player2
 
-    team = Teams\create {
+  it "creates a team with the 2 users", ->
+    test_team, test_response_message = Teams\create {
       player1_id: test_player1.id,
       player2_id: test_player2.id
     }
 
-    assert.truthy team
+  it "received a valid response Team object", ->
+    assert.truthy test_team
+    assert.truthy test_team.id
+    assert.truthy test_team.updated_at
+    assert.truthy test_team.created_at
+    assert.truthy test_team.player1_id
+    assert.truthy test_team.player2_id
+    assert.truthy test_team.team_name
 
-    Players\include_in team, "player1_id"
-    Players\include_in team, "player2_id"
+  pending "can preload object associations", ->
+    dump test_team
+    Players\include_in test_team, "player1_id"
+    dump test_team
+    Players\include_in test_team, "player2_id"
+    dump test_team
 
-    assert.truthy team.player1
-    assert.truthy team.player2
+    assert.truthy test_team.player1
+    assert.truthy test_team.player2
 
