@@ -5,6 +5,7 @@ import encode from require "cjson"
 
 class FoosboyApi extends Application
   @include "app.players", path: "/api/players"
+  @include "app.teams",   path: "/api/teams"
 
   handle_404: =>
     status: 404, json: {

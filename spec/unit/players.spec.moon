@@ -1,9 +1,6 @@
 
---import mock_request from require "lapis.spec.request"
 import load_test_server, close_test_server from require "lapis.spec.server"
 import Players from require "models"
-
-import dump, write from require "pl.pretty"
 
 describe "Players model tests", ->
   setup ->
