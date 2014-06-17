@@ -1,9 +1,6 @@
 
---import mock_request from require "lapis.spec.request"
 import load_test_server, close_test_server from require "lapis.spec.server"
 import Teams, Players from require "models"
-
-import dump, write from require "pl.pretty"
 
 describe "Teams model tests", ->
   setup ->
@@ -62,11 +59,8 @@ describe "Teams model tests", ->
     assert.truthy test_team.team_name
 
   pending "can preload object associations", ->
-    dump test_team
     Players\include_in test_team, "player1_id"
-    dump test_team
     Players\include_in test_team, "player2_id"
-    dump test_team
 
     assert.truthy test_team.player1
     assert.truthy test_team.player2
