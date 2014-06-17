@@ -8,6 +8,7 @@ config {"development", "production", "test"}, ->
   pg = prod.pgsql
   postgresql_url user: pg.user, password: pg.pass, database: pg.db
 
+  port prod.port
   num_workers 4
   code_cache "off"
   session_name "foosboy"

@@ -1,23 +1,16 @@
 
--- This is an example of how the environment-specific secret configuration
--- variables are read from conf.moon
+import getenv from os
 
 {
   prod: {
-    secret: "soop3r$ecre7RandoMstr1ng!"
+    port: getenv("APP_PORT")
+    secret: getenv("APP_SECRET")
     pgsql: {
-      user: "a_postgres_user"
-      pass: "the_password"
-      db: "foosboy_adv"
-    }
-  }
-
-  dev: {
-    secret: "AnoTh3rDiffrntsecr3TstrinG"
-    pgsql: {
-      user: "postgres"
-      pass: ""
-      db: "foosboy_adv_dev"
+      user: getenv("PGSQL_USER")
+      pass: getenv("PGSQL_PASSWORD")
+      db: getenv("PGSQL_DATABASE")
+      host: getenv("PGSQL_HOST") or "127.0.0.1"
+      port: getenv("PGSQL_PORT") or 5432
     }
   }
 }
