@@ -34,6 +34,21 @@ class Players extends Model
 class Teams extends Model
   @timestamp: true
 
+  @exists_with_name: (name) =>
+    if @find team_name: name
+      return true
+    false
+
+  @exists_with_players: (p1, p2) =>
+    return nil, "invalid player id" unless (p1 and p2)
+
+    if @find player1_id: p1, player2_id: p2
+      return true
+    if @find player1_id: p2, player2_id: p1
+      return true
+
+    false
+
   @create: (opt) =>
     { :player1_id, :player2_id } = opt
 
