@@ -71,3 +71,12 @@ describe "Teams model tests", ->
     assert.truthy test_team.player1
     assert.truthy test_team.player2
 
+  it "can find the new team row in the database", ->
+    assert.truthy Teams\find id: test_team.id
+
+  it "can delete the just-created team from the database", ->
+    assert.truthy (Teams\find id:test_team.id)\delete!
+
+  it "verifies that the record cannot be found in the database", ->
+    assert.falsy Teams\find id:test_team.id
+

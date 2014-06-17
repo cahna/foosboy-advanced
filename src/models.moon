@@ -31,16 +31,6 @@ class Players extends Model
     else
       return false
 
---  @delete: (...) =>
---    opt = ...
---    id, first_name, last_name = opt[1], "", ""
---
---    unless opt[2] and id
---      first_name = id
---      last_name = opt[2]
---
---    print "Deleting: #{opt}"
-
 class Teams extends Model
   @timestamp: true
 
