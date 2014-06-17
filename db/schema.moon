@@ -50,7 +50,7 @@ schema = {
     {"created_at", time}
     {"updated_at", time}
   },
-  player_postitions: {
+  player_positions: {
     {"player_id", foreign_key}
     {"game_id", foreign_key}
     {"position", integer}
