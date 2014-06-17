@@ -9,7 +9,7 @@ An API for Foosball statistics tracking
 The versions listed are those that FBA has been developed against on Linux.
 
 * [Moonscript](http://moonscript.org/) &ge; 0.2.5
-* [Lapis](http://leafo.net/lapis/) 0.0.10
+* [Lapis](http://leafo.net/lapis/) 1.0.0
 * [PostgreSQL](http://www.postgresql.org/) 9.3.4
 * [ngx_openresty](http://openresty.org/) &ge; 1.5.11.1 compiled (_at least_) 
   with these configuration flags:
