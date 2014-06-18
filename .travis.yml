@@ -8,6 +8,7 @@ install:
 - sudo luarocks install copas
 - sudo luarocks install lapis
 - sudo luarocks install penlight
+- sudo luarocks install busted
 script: make test
 deploy:
   provider: heroku
