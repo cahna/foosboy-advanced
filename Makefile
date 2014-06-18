@@ -1,7 +1,7 @@
 
 .PHONY: all
 
-MOONC ?= $(HOME)/.luarocks/bin/moonc
+MOONC ?= moonc
 RM = rm --preserve-root -fv
 RMDIR = $(RM) -r
 
