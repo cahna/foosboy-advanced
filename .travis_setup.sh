@@ -3,7 +3,7 @@
 SCRIPT_ROOT=`pwd`
 
 install_moonscript() {
-  git clone https://github.com/cahna/moonscript.git
+  git clone https://github.com/cahna/moonscript.git -b moonc-behavior-tests ./moonscript
   cd moonscript
   sudo luarocks make
   cd "$SCRIPT_ROOT"
