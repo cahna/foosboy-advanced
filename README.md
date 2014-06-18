@@ -4,6 +4,8 @@ FBA
 
 An API for Foosball statistics tracking
 
+[![Build Status](https://travis-ci.org/cahna/foosboy-advanced.svg?branch=master)](https://travis-ci.org/cahna/foosboy-advanced)
+
 ## Dependencies
 
 The versions listed are those that FBA has been developed against on Linux.
