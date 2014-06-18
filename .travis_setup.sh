@@ -7,6 +7,7 @@ install_moonscript() {
   cd moonscript
   sudo luarocks make
   cd "$SCRIPT_ROOT"
+  rm -rf moonscript
 }
 
 install_openresty() {
@@ -17,6 +18,8 @@ install_openresty() {
   ./configure --with-luajit --with-http_postgres_module -j4
   make
   sudo make install
+  cd "$SCRIPT_ROOT"
+  rm -rf ngx_openresty
 }
 
 install_moonscript
