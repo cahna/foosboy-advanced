@@ -1,4 +1,8 @@
 language: c
+env:
+  PGSQL_USER: "postgres"
+  PGSQL_PASSWORD: ""
+  PGSQL_DATABASE: "foosboy_adv"
 addons:
   postgresql: "9.3"
 before_install:
