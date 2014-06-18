@@ -1,4 +1,6 @@
 language: c
+addons:
+  postgresql: "9.3"
 before_install:
 - sudo apt-get update -qq
 - sudo apt-get install -qq libev-dev luarocks
@@ -9,6 +11,8 @@ install:
 - sudo luarocks install lapis
 - sudo luarocks install penlight
 - sudo luarocks install busted
+before_script:
+  - psql -c 'create database foosboy_adv;' -U postgres
 script: make ci
 deploy:
   provider: heroku
