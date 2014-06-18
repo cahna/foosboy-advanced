@@ -6,18 +6,22 @@ env:
 addons:
   postgresql: "9.3"
 before_install:
-- sudo apt-get update -qq
-- sudo apt-get install -qq libev-dev luarocks
-- bash .travis_setup.sh
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq libev-dev luarocks
+  - bash .travis_setup.sh
 install:
-- sudo luarocks install lua-ev scm --server=http://luarocks.org/repositories/rocks-scm/
-- sudo luarocks install copas
-- sudo luarocks install lapis
-- sudo luarocks install penlight
-- sudo luarocks install busted
+  - sudo luarocks install lua-ev scm --server=http://luarocks.org/repositories/rocks-scm/
+  - sudo luarocks install copas
+  - sudo luarocks install lapis
+  - sudo luarocks install penlight
+  - sudo luarocks install busted
 before_script:
   - psql -c 'create database foosboy_adv;' -U postgres
-script: make ci
+script: 
+  - make
+  - make lint
+  - make lapis
+  - make test
 deploy:
   provider: heroku
   api_key:
