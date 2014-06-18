@@ -20,6 +20,8 @@ LAPIS_OBJECTS = nginx.conf.compiled
 
 all: compile lint lapis
 
+ci: all test
+
 compile: $(APP_OBJECTS) $(CONF_OBJECTS)
 
 $(APP_OBJECTS): $(BUILDDIR)/%.lua : $(SOURCEDIR)/%.moon

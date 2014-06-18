@@ -9,7 +9,7 @@ install:
 - sudo luarocks install lapis
 - sudo luarocks install penlight
 - sudo luarocks install busted
-script: make test
+script: make ci
 deploy:
   provider: heroku
   api_key:
