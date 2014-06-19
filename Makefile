@@ -45,6 +45,9 @@ lint:
 test: $(APP_OBJECTS)
 	@busted
 
+test_unit: $(APP_OBJECTS)
+	@busted -r unit
+
 db:: all dbtest schema migrate
 
 dbtest::
