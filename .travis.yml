@@ -5,9 +5,13 @@ env:
   PGSQL_DATABASE: "foosboy_adv"
 addons:
   postgresql: "9.3"
+branches:
+  only:
+    - master
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq libev-dev luarocks
+  - sudo apt-get remove nginx
 install:
   - bash .travis_setup.sh
   - sudo luarocks install lua-ev scm --server=http://luarocks.org/repositories/rocks-scm/
@@ -17,12 +21,15 @@ install:
   - sudo luarocks install busted
 before_script:
   - psql -c 'create database foosboy_adv;' -U postgres
-script: 
+script:
+  - lapis server test &
   - make
   - make lint
   - make lapis
   - make db
   - make test_unit
+after_script:
+  - sudo killall nginx
 deploy:
   provider: heroku
   api_key:
