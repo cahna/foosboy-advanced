@@ -1,5 +1,11 @@
 #!/bin/sh
 
+if [[ $TRAVIS != true ]]; then
+  echo 'not in a Travis environment (check $TRAVIS)'
+  exit 1
+fi
+
+export TRAVIS_SECURE_ENV_VARS=true
 SCRIPT_ROOT=`pwd`
 
 install_moonscript() {
