@@ -9,10 +9,10 @@ SOURCEDIR = ./src
 BUILDDIR = ./web/lua
 SPECDIR = ./spec
 
-APP_SOURCES = $(shell find $(SOURCEDIR) -type f -name '*.moon' -not -path "$(SPECDIR)/*")
+APP_SOURCES = $(shell find $(SOURCEDIR) -name '*.moon' -type f -print)
 APP_OBJECTS = $(patsubst $(SOURCEDIR)/%.moon,$(BUILDDIR)/%.lua,$(APP_SOURCES))
 
-CONF_SOURCES = $(shell find -name "*.moon" -not -path "./web/*" -and -not -path "./src/*" -and -not -path './spec/*')
+CONF_SOURCES = $(shell find . -name "*.moon" -not -path "./web/*" -and -not -path "./src/*" -and -not -path './spec/*')
 CONF_OBJECTS = $(patsubst ./%.moon,./%.lua,$(CONF_SOURCES))
 
 LAPIS_SOURCES = nginx.conf
