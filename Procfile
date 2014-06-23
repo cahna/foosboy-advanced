@@ -1,1 +1,1 @@
-web:     lapis server production
+web:     make run

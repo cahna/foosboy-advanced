@@ -2,7 +2,7 @@
 import getenv from os
 
 -- A helper for heroku environment-to-dsl translation
-env_pgurl = getenv "HEROKU_POSTGRESQL_AMBER_URL"
+env_pgurl = getenv("HEROKU_POSTGRESQL_AMBER_URL") or getenv("DATABASE_URL")
 
 if env_pgurl and env_pgurl\len! > 3
   import setenv from require "posix"
