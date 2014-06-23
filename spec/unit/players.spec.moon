@@ -1,10 +1,12 @@
 
 import load_test_server, close_test_server from require "lapis.spec.server"
-import Players from require "models"
 
 describe "Players model tests", ->
+  local Players
+
   setup ->
     load_test_server!
+    Players = (require "models").Players
 
   teardown ->
     close_test_server!
