@@ -79,6 +79,11 @@ clean_lapis::
 clean_schema::
 	@lapis exec 'require"db.schema".destroy_schema()'
 
+run_prod:: install_openresty install_deps
+
+install_deps::
+	@apt-get install luajit libpqcxx
+
 install_openresty::
 	git clone https://github.com/openresty/ngx_openresty.git /tmp/ngx_openresty
 	cd /tmp/ngx_openresty
