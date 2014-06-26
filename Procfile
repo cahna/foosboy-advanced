@@ -1,1 +1,1 @@
-web: make run_heroku
+web: start_nginx.sh
