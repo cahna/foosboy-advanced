@@ -28,12 +28,11 @@ script:
   - make lapis
   - make db
   - make test_unit
-after_script:
-  - sudo killall nginx
 deploy:
   provider: heroku
   api_key:
     secure: T8pkBAubI2cse39qiXU7r7Kao7LRC/L0x9lLmrQx0Na07G1q3Zb2CdY2GzIBIhooNnq81TUWv6EqrNmZgo4Nu4pvWRwmIgl4Q/YKIlOzF9YoU7EHM1Tz4HL9zsXpb9fT31UGLAnTOselr9QtKpg8DWLK/LIEBqO+CwtwAz0T+gI=
   app: foosboy-advanced
+  buildpack: http://github.com/leafo/heroku-buildpack-lua.git
   on:
     repo: cahna/foosboy-advanced
