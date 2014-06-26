@@ -18,7 +18,7 @@ CONF_OBJECTS = $(patsubst ./%.moon,./%.lua,$(CONF_SOURCES))
 LAPIS_SOURCES = nginx.conf
 LAPIS_OBJECTS = nginx.conf.compiled
 
-all: compile lint lapis
+all: lint compile lapis
 
 ci: all test
 
@@ -42,7 +42,7 @@ lapis: $(LAPIS_OBJECTS)
 lint:
 	@moonc -l $(APP_SOURCES)
 
-test: $(APP_OBJECTS)
+test: $(APP_OBJECTS) $(CONF_OBJECTS) $(LAPIS_OBJECTS)
 	@busted
 
 test_unit: $(APP_OBJECTS)
@@ -79,7 +79,8 @@ clean_lapis::
 clean_schema::
 	@lapis exec 'require"db.schema".destroy_schema()'
 
-run_prod:: install_openresty install_deps
+run_heroku:: compile
+	start_nginx.sh
 
 install_deps::
 	@apt-get install luajit libpqcxx
