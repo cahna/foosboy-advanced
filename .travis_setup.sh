@@ -31,3 +31,6 @@ install_openresty() {
 install_moonscript
 install_openresty
 
+# Get back to source code root
+cd "$SCRIPT_ROOT"
+
