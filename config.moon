@@ -16,7 +16,7 @@ import
   TRAVIS_BUILD_ID
 from ENV
 
-if pg_port = getenv "DB_1_PORT_5432_TCP_PORT"
+if pg_port = os.getenv "DB_1_PORT_5432_TCP_PORT"
   PG_HOST ..= ":#{pg_port}"
 
 -- Shared configurations
