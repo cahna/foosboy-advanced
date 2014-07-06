@@ -25,7 +25,7 @@ class PlayersApp extends Application
   }
 
   [create: "/create"]: respond_to {
-    POST: capture_errors_json =>
+    POST: json_params capture_errors_json =>
       assert_valid @params, {
         { "first_name", exists: true, type: "string" }
         { "last_name",  exists: true, type: "string" }

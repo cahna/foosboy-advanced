@@ -18,7 +18,7 @@ CONF_OBJECTS = $(patsubst ./%.moon,./%.lua,$(CONF_SOURCES))
 LAPIS_SOURCES = nginx.conf
 LAPIS_OBJECTS = nginx.conf.compiled
 
-all: lint compile lapis
+all: compile lint
 
 ci: all test
 
@@ -30,17 +30,17 @@ $(APP_OBJECTS): $(BUILDDIR)/%.lua : $(SOURCEDIR)/%.moon
 $(CONF_OBJECTS): ./%.lua : ./%.moon
 	@$(MOONC) $<
 
+$(LAPIS_OBJECTS): ./%.conf.compiled : ./%.conf
+	@lapis build
+
 # Convenience task for increasing inotify watches (use sudo)
 inotify:
 	echo 12800 > /proc/sys/fs/inotify/max_user_watches
 
-$(LAPIS_OBJECTS): ./%.conf.compiled : ./%.conf
-	@lapis build
-
 lapis: $(LAPIS_OBJECTS)
 
 lint:
-	@moonc -l $(APP_SOURCES)
+	@moonc -l .
 
 test: $(APP_OBJECTS) $(CONF_OBJECTS) $(LAPIS_OBJECTS)
 	@busted
@@ -51,7 +51,7 @@ test_unit: $(APP_OBJECTS)
 db:: all dbtest schema migrate
 
 dbtest::
-	@lapis exec 'require"lapis.db".query"select 1"'
+	@lapis exec 'require"lapis.db".query"select 1'
 
 schema:: $(CONF_OBJECTS) dbtest
 	@lapis exec 'require"db.schema".create_schema()'
@@ -60,10 +60,10 @@ migrate:: $(CONF_OBJECTS) dbtest
 	@lapis exec 'require"lapis.db.migrations".create_migrations_table()'
 	@lapis exec 'require"lapis.db.migrations".run_migrations(require"db.migrations")'
 
-routes: all lapis
+routes: all $(LAPIS_OBJECTS)
 	@lapis exec 'require "cmd.routes"'
 
-run: all lapis
+run: all $(LAPIS_OBJECTS)
 	@lapis server
 
 clean:: clean_src clean_lapis

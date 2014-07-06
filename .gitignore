@@ -1,6 +1,7 @@
 
 # Lapis
 *.lua
+web/lua/*
 nginx.conf.compiled
 
 # Nginx/openresty

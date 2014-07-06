@@ -21,4 +21,4 @@ class FoosboyApi extends Application
       @app.handle_404 @
 
   [index: "/"]: =>
-    "Welcome to Foosboy-Advanced on Lapis #{require "lapis.version"}!"
+    "Welcome to Foosboy-Advanced on Lapis #{require "lapis.version"} in Docker"

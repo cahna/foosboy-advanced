@@ -1,0 +1,14 @@
+
+db:
+  image: cahna/foosboy-postgres
+  ports:
+    - "5432"
+web:
+  image: cahna/lapis
+  volumes:
+    - .:/usr/src/app
+  ports:
+    - "8080"
+  links:
+    - db
+
