@@ -27,7 +27,7 @@ script:
   - make
   - lapis build travis
   - lapis server travis
-  - lapis exec 'require"lapis.db".query"select 1'
+  - lapis exec 'require"lapis.db".query"select 1;'
   - lapis exec 'require"schema".create_schema()'
   - lapis migrate
 #  - lapis exec 'require"lapis.db.migrations".create_migrations_table()'
