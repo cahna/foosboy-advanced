@@ -39,8 +39,9 @@ config {"production", "test", "development"}, ->
     host      PGSQL_HOST
 
 config "travis", ->
-  session_name  "Travis#{TRAVIS_BUILD_ID}"
-  secret        "Travis#{TRAVIS_COMMIT}"
+  session_name    "Travis#{TRAVIS_BUILD_ID}"
+  secret          "Travis#{TRAVIS_COMMIT}"
+  lua_code_cache  "off"
 
   postgres ->
     host      "localhost"
