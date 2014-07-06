@@ -25,7 +25,7 @@ default_config.pwd             = PWD
 default_config.port            = APP_PORT or 8080
 default_config.num_workers     = 4
 default_config.lua_code_cache  = "on"
-default_config.daemon          = "of"
+default_config.daemon          = "off"
 
 -- Configuration Environments
 config {"production", "test", "development"}, ->
@@ -42,6 +42,7 @@ config "travis", ->
   session_name    "Travis#{TRAVIS_BUILD_ID}"
   secret          "Travis#{TRAVIS_COMMIT}"
   lua_code_cache  "off"
+  daemon          "on"
 
   postgres ->
     host      "localhost"
