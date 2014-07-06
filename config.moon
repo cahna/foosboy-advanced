@@ -14,6 +14,7 @@ import
   PG_HOST
   PWD
   TRAVIS_BUILD_ID
+  TRAVIS_COMMIT
 from ENV
 
 if pg_port = os.getenv "DB_1_PORT_5432_TCP_PORT"
