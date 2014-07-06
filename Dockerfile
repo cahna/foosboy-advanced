@@ -11,7 +11,7 @@ RUN apt-get -qy install openssl libpcre3 libpcre3-dev pcregrep libpcre++0
 RUN luarocks install luasec OPENSSL_LIBDIR=/usr/lib/x86_64-linux-gnu
 RUN luarocks install moonscript
 RUN luarocks install lapis 
-RUN luarocks install busted
+RUN luarocks install busted 1.11.0
 RUN git clone https://github.com/openresty/ngx_openresty.git /tmp/ngx && \
   cd /tmp/ngx && \
   make && \

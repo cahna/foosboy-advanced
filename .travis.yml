@@ -20,7 +20,7 @@ install:
   - sudo luarocks install copas
   - sudo luarocks install lapis
   - sudo luarocks install penlight
-  - sudo luarocks install busted
+  - sudo luarocks install busted 1.11.0
 before_script:
   - psql -c 'create database foosboy_adv;' -U postgres
 script:
