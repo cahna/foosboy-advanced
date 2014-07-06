@@ -23,12 +23,14 @@ install:
 before_script:
   - psql -c 'create database foosboy_adv;' -U postgres
 script:
-  - lapis server test &
   - make
-  - make lint
-  - make lapis
-  - make db
-  - make test_unit
+  - lapis build travis
+  - lapis server test
+  - lapis exec 'require"lapis.db".query"select 1'
+  - lapis exec 'require"db.schema".create_schema()'
+  - lapis exec 'require"lapis.db.migrations".create_migrations_table()'
+  - lapis exec 'require"lapis.db.migrations".run_migrations(require"db.migrations")'
+  - busted
 deploy:
   provider: heroku
   api_key:
