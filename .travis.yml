@@ -14,6 +14,7 @@ before_install:
   - sudo apt-get remove nginx
 install:
   - bash .travis_setup.sh
+  - sudo luarocks install luasec OPENSSL_LIBDIR=/usr/lib/x86_64-linux-gnu
   - sudo luarocks install lua-ev scm --server=http://luarocks.org/repositories/rocks-scm/
   - sudo luarocks install copas
   - sudo luarocks install lapis
