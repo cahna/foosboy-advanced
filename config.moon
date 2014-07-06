@@ -8,10 +8,10 @@ import
   APP_SESSION_NAME
   APP_SECRET
   APP_PORT
-  PG_USERNAME
-  PG_PASSWORD
-  PG_DBNAME
-  PG_HOST
+  PGSQL_USER
+  PGSQL_PASSWORD
+  PGSQL_DATABASE
+  PGSQL_HOST
   PWD
   TRAVIS_BUILD_ID
   TRAVIS_COMMIT
@@ -33,10 +33,10 @@ config {"production", "test", "development"}, ->
   secret         APP_SECRET
 
   postgres ->
-    host      PG_HOST
-    user      PG_USERNAME
-    password  PG_PASSWORD
-    database  PG_DBNAME
+    user      PGSQL_USER
+    password  PGSQL_PASSWORD
+    database  PGSQL_DATABASE
+    host      PGSQL_HOST
 
 config "travis", ->
   session_name  "Travis#{TRAVIS_BUILD_ID}"
@@ -46,4 +46,5 @@ config "travis", ->
     host      "localhost"
     user      "postgres"
     password  ""
-    database  "travis_ci_test"
+    database  PGSQL_DATABASE
+
