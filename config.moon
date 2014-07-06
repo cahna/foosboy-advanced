@@ -15,6 +15,7 @@ import
   PWD
   TRAVIS_BUILD_ID
   TRAVIS_COMMIT
+  HEROKU_POSTGRESQL_AMBER_URL
 from ENV
 
 if pg_port = os.getenv "DB_1_PORT_5432_TCP_PORT"
@@ -39,8 +40,8 @@ config {"production", "test", "development"}, ->
     host      PGSQL_HOST
 
 config "travis", ->
-  session_name    "Travis#{TRAVIS_BUILD_ID}"
-  secret          "Travis#{TRAVIS_COMMIT}"
+  session_name    TRAVIS_BUILD_ID
+  secret          TRAVIS_COMMIT
   lua_code_cache  "off"
   daemon          "on"
 
@@ -49,4 +50,9 @@ config "travis", ->
     user      "postgres"
     password  ""
     database  PGSQL_DATABASE
+
+config "heroku", ->
+  session_name   APP_SESSION_NAME
+  secret         APP_SECRET
+  postgres       HEROKU_POSTGRESQL_AMBER_URL
 

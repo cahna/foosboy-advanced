@@ -5,6 +5,6 @@ dependencies = {
   "luasocket",
   "lposix",
   "penlight >= 1.3.1",
-  "busted >= 1.11.1",
+  "busted 1.11.0",
   "lapis >= 1.0.0"
 }

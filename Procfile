@@ -1,1 +1,1 @@
-web: make; lapis build production; lapis server production
+web: make; lapis build heroku; lapis server heroku
