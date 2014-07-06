@@ -1,8 +1,9 @@
 language: c
 env:
-  PGSQL_USER: "postgres"
-  PGSQL_PASSWORD: ""
-  PGSQL_DATABASE: "foosboy_adv"
+  global:
+    - PGSQL_USER=postgres
+    - PGSQL_PASSWORD=
+    - PGSQL_DATABASE=foosboy_adv
 addons:
   postgresql: "9.3"
 branches:
@@ -27,9 +28,10 @@ script:
   - lapis build travis
   - lapis server travis
   - lapis exec 'require"lapis.db".query"select 1'
-  - lapis exec 'require"db.schema".create_schema()'
-  - lapis exec 'require"lapis.db.migrations".create_migrations_table()'
-  - lapis exec 'require"lapis.db.migrations".run_migrations(require"db.migrations")'
+  - lapis exec 'require"schema".create_schema()'
+  - lapis migrate
+#  - lapis exec 'require"lapis.db.migrations".create_migrations_table()'
+#  - lapis exec 'require"lapis.db.migrations".run_migrations(require"db.migrations")'
   - busted
 deploy:
   provider: heroku
