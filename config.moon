@@ -18,6 +18,7 @@ import
   HEROKU_POSTGRESQL_AMBER_URL
 from ENV
 
+-- This line is a band-aid fix for fig/docker dynamic port allocation when linking containers
 if pg_port = os.getenv "DB_1_PORT_5432_TCP_PORT"
   PG_HOST ..= ":#{pg_port}"
 
@@ -29,7 +30,17 @@ default_config.lua_code_cache  = "on"
 default_config.daemon          = "off"
 
 -- Configuration Environments
-config {"production", "test", "development"}, ->
+config "development", ->
+  session_name   "development_session"
+  secret         "development_secret"
+
+  postgres ->
+    user      "postgres"
+    password  ""
+    database  "fba_development"
+    host      "127.0.0.1"
+
+config {"production", "test", "fig", "drone", "ci"}, ->
   session_name   APP_SESSION_NAME
   secret         APP_SECRET
 

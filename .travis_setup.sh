@@ -8,14 +8,6 @@ fi
 export TRAVIS_SECURE_ENV_VARS=true
 SCRIPT_ROOT=`pwd`
 
-install_moonscript() {
-  git clone https://github.com/cahna/moonscript.git -b moonc-behavior-tests ./moonscript
-  cd moonscript
-  sudo luarocks make
-  cd "$SCRIPT_ROOT"
-  rm -rf moonscript
-}
-
 install_openresty() {
   git clone https://github.com/openresty/ngx_openresty.git 
   cd ngx_openresty
@@ -28,7 +20,6 @@ install_openresty() {
   rm -rf ngx_openresty
 }
 
-install_moonscript
 install_openresty
 
 # Get back to source code root
