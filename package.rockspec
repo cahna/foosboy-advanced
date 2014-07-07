@@ -6,5 +6,6 @@ dependencies = {
   "lposix",
   "penlight",
   "busted",
+  "moonscript",
   "lapis >= 1.0.0"
 }
