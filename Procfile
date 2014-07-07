@@ -1,1 +1,1 @@
-web: 'make; lapis build heroku && lapis server heroku'
+web: "make && lapis build heroku && lapis server heroku"
