@@ -39,5 +39,11 @@ deploy:
   app: foosboy-advanced
   buildpack: http://github.com/leafo/heroku-buildpack-lua.git
   strategy: git
+  skip_cleanup: true
   on:
     repo: cahna/foosboy-advanced
+  run:
+    - 'lapis build heroku'
+    - restart
+    - 'lapis exec "require\"schema\".create_schema()"'
+    - 'lapis migrate'
