@@ -30,17 +30,17 @@ default_config.lua_code_cache  = "on"
 default_config.daemon          = "off"
 
 -- Configuration Environments
-config "development", ->
+config {"development", "test"}, ->
   session_name   "development_session"
   secret         "development_secret"
 
   postgres ->
     user      "postgres"
     password  ""
-    database  "fba_development"
+    database  "foosboy_adv"
     host      "127.0.0.1"
 
-config {"production", "test", "fig", "drone", "ci"}, ->
+config {"production", "fig", "drone", "ci"}, ->
   session_name   APP_SESSION_NAME
   secret         APP_SECRET
 

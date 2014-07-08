@@ -4,8 +4,8 @@ import respond_to, assert_error, capture_errors_json from require "lapis.applica
 import encode from require "cjson"
 
 class FoosboyApi extends Application
-  @include "app.players", path: "/api/players"
-  @include "app.teams",   path: "/api/teams"
+  @include "app.players", path: "/players"
+  @include "app.teams",   path: "/teams"
 
   handle_404: =>
     status: 404, json: {
